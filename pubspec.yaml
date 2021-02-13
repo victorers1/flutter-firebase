@@ -42,9 +42,9 @@ dependencies:
   # Firebase packages
   firebase_core: ^0.7.0
   firebase_analytics: ^7.0.1
+  firebase_performance: ^0.5.0+1 
   # cloud_firestore: ^0.16.0 # App builda, mas provica erro: Note: C:\Users\Victor\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-0.16.0\android\src\main\java\io\flutter\plugins\firebase\firestore\streamhandler\TransactionStreamHandler.java uses unchecked or unsafe operations
   # firebase_database: ^6.0.0
-  # firebase_performance: ^0.5.0+1 
   # firebase_in_app_messaging: ^0.3.0+1
   # firebase_crashlytics: ^0.4.0+1 # Provoca erro e app não abre. Aparentemente é preciso configurar no site antes de usar.
 

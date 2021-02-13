@@ -13,25 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
-
-  analyticsAppOpen() {
-    analytics.logAppOpen().then((value) => print('app open logged'));
-  }
-
-  analyticsPressedButton() {
-    analytics.logEvent(name: 'pressed_button', parameters: {'foo': 'bar'}).then(
-      (value) => print('analytics events logged'),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    analyticsAppOpen();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,8 +31,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RaisedButton(
-                      onPressed: analyticsPressedButton,
-                      child: Text('Trigger Analytics Event'),
+                      onPressed: () {
+                        Modular.to.pushNamed('/analytics');
+                      },
+                      child: Text('Try Firebase Analytics'),
                     ),
                   ],
                 );
