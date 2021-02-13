@@ -6,3 +6,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(ModularApp(module: AppModule()));
 }
+
+/// Comando para Analytics funcionar me modo Debug:
+/// `adb shell setprop debug.firebase.analytics.app com.example.firebase_flutter`
