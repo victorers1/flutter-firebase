@@ -1,0 +1,2 @@
+Você deve gerar seu arquivo `google-services.json` no site firebase.google.com e colocá-lo nesta pasta.
+Ao criar o projeto no Firebase o nome do package deve ser o mesmo escrito nos `AndroidManifest.xml` deste projeto: **com.example.firebase_flutter**.
