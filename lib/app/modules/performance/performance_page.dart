@@ -5,9 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'performance_controller.dart';
 
 class PerformancePage extends StatefulWidget {
-  final String title;
-  const PerformancePage({Key key, this.title = "Performance"})
-      : super(key: key);
+  const PerformancePage({Key key}) : super(key: key);
 
   @override
   _PerformancePageState createState() => _PerformancePageState();
@@ -16,7 +14,7 @@ class PerformancePage extends StatefulWidget {
 class _PerformancePageState
     extends ModularState<PerformancePage, PerformanceController> {
   _perfTrace() async {
-    Trace trace = FirebasePerformance.instance.newTrace('five_trace');
+    Trace trace = FirebasePerformance.instance.newTrace('5secs_trace');
     trace.start();
     controller.setTraceButtonText('Tracing...');
     await Future.delayed(Duration(seconds: 5));
@@ -28,7 +26,7 @@ class _PerformancePageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Performance Module'),
       ),
       body: Center(
         child: Column(
@@ -41,6 +39,12 @@ class _PerformancePageState
                   return Text(controller.traceButtonsText);
                 },
               ),
+            ),
+            RaisedButton(
+              onPressed: () {
+                Modular.link.pushNamed('/network_performance');
+              },
+              child: Text('Go to Network Performance page'),
             ),
           ],
         ),

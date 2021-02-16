@@ -41,7 +41,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       onPressed: () {
                         Modular.to.pushNamed('/performance');
                       },
-                      color: Colors.red,
+                      color: Colors.green,
                       child: Text('Try Firebase Performance'),
                     ),
                   ],

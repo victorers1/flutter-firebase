@@ -7,7 +7,8 @@ part of 'performance_controller.dart';
 // **************************************************************************
 
 final $PerformanceController = BindInject(
-  (i) => PerformanceController(),
+  (i) => PerformanceController(
+      basePerformanceRepository: i<BasePerformanceRepository>()),
   singleton: true,
   lazy: true,
 );
