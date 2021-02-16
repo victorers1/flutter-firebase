@@ -34,7 +34,15 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       onPressed: () {
                         Modular.to.pushNamed('/analytics');
                       },
+                      color: Colors.yellow,
                       child: Text('Try Firebase Analytics'),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Modular.to.pushNamed('/performance');
+                      },
+                      color: Colors.red,
+                      child: Text('Try Firebase Performance'),
                     ),
                   ],
                 );
