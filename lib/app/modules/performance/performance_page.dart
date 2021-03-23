@@ -13,8 +13,10 @@ class PerformancePage extends StatefulWidget {
 
 class _PerformancePageState
     extends ModularState<PerformancePage, PerformanceController> {
+  final trace = FirebasePerformance.instance.newTrace('5secs_trace');
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   _perfTrace() async {
-    Trace trace = FirebasePerformance.instance.newTrace('5secs_trace');
     trace.start();
     controller.setTraceButtonText('Tracing...');
     await Future.delayed(Duration(seconds: 5));
@@ -22,9 +24,25 @@ class _PerformancePageState
     controller.setTraceButtonText('Peforme trace');
   }
 
+  _incrementMetric() {
+    trace.incrementMetric('FAB_count', controller.fabCount).then(
+          (value) => print('trace.incrementMetric(${controller.fabCount})'),
+        );
+
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          'FAB_count metric updated to ${controller.fabCount}',
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('Performance Module'),
       ),
@@ -48,6 +66,13 @@ class _PerformancePageState
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          controller.increment();
+          _incrementMetric();
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

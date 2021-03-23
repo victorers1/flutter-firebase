@@ -6,7 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 class PokemonItem extends StatefulWidget {
   final Pokemon pokemon;
 
-  const PokemonItem({Key key, this.pokemon}) : super(key: key);
+  PokemonItem({this.pokemon});
 
   @override
   _PokemonItemState createState() => _PokemonItemState();
@@ -15,14 +15,12 @@ class PokemonItem extends StatefulWidget {
 class _PokemonItemState
     extends ModularState<PokemonItem, PerformanceController> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(widget.pokemon.name),
+      title: Text(
+        widget.pokemon.name.toUpperCase(),
+        style: TextStyle(fontSize: 22),
+      ),
       // trailing: Image.network(''),
     );
   }

@@ -15,16 +15,21 @@ abstract class _PerformanceControllerBase with Store {
   /// Trace performance
   @observable
   String _traceButtonText = 'Peforme trace';
+  @observable
+  int fabCount = 0;
+  @action
+  increment() => ++fabCount;
   @action
   setTraceButtonText(String s) => _traceButtonText = s;
   get traceButtonsText => _traceButtonText;
   // Trace performance
 
   /// Network performance
-  int offset = 0;
-  int limit = 20;
+  int pageOffset = 0;
+  int limitPerPage = 20;
   Future getPokemons() async {
-    return await basePerformanceRepository.getPokemons(offset, limit);
+    return await basePerformanceRepository.getPokemons(
+        pageOffset, limitPerPage);
   }
   // Network performance
 

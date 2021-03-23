@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'analytics_controller.dart';
 
@@ -16,22 +17,22 @@ class AnalyticsPage extends StatefulWidget {
 
 class _AnalyticsPageState
     extends ModularState<AnalyticsPage, AnalyticsController> {
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
+  final analytics = FirebaseAnalytics();
 
-  analyticsPressedButton() {
-    analytics.logEvent(name: 'pressed_button', parameters: {'foo': 'bar'}).then(
-      (value) => print('analytics events logged'),
-    );
+  analyticsPressedButton(int value) {
+    final params = {'count': value};
+    analytics.logEvent(name: 'pressed_button', parameters: params).then(
+          (value) => print('analytics.logEvent($params)'),
+        );
   }
 
   analyticsAppOpen() {
-    analytics.logAppOpen().then((value) => print('app open logged'));
+    analytics.logAppOpen().then((value) => print('analytics.logAppOpen()'));
   }
 
   @override
   void initState() {
     super.initState();
-
     analyticsAppOpen();
   }
 
@@ -46,11 +47,19 @@ class _AnalyticsPageState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RaisedButton(
-              onPressed: analyticsPressedButton,
-              child: Text('Trigger Analytics Event'),
+              onPressed: () {
+                analyticsPressedButton(controller.value);
+              },
+              child: Observer(builder: (_) {
+                return Text('Trigger Analytics Event ${controller.value}');
+              }),
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: controller.increment,
       ),
     );
   }

@@ -14,6 +14,7 @@ class _NetworkPerformancePageState
     extends ModularState<NetworkPerformancePage, PerformanceController> {
   final PagingController<int, Pokemon> _pagingController =
       PagingController(firstPageKey: 0);
+
   @override
   void initState() {
     _pagingController.addPageRequestListener((offset) {
@@ -25,13 +26,13 @@ class _NetworkPerformancePageState
   Future<void> _fetchPage(int offset) async {
     try {
       final List<Pokemon> newItems = await controller.getPokemons();
-      final isLastPage = newItems.length < controller.limit;
+      final bool isLastPage = newItems.length < controller.limitPerPage;
 
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
-        controller.offset += newItems.length;
-        _pagingController.appendPage(newItems, controller.offset);
+        controller.pageOffset += newItems.length;
+        _pagingController.appendPage(newItems, controller.pageOffset);
       }
     } catch (e) {
       _pagingController.error = e;
@@ -47,9 +48,7 @@ class _NetworkPerformancePageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Pokemons'),
-      ),
+      appBar: AppBar(title: Text('Pokemons')),
       body: PagedListView<int, Pokemon>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate(

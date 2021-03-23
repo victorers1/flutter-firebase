@@ -1,4 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -13,6 +12,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
+  Widget snapshotHasError() => Text('Firebase could not be initialized');
+
+  Widget snapshotHasData() => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          RaisedButton(
+            onPressed: () {
+              Modular.to.pushNamed('/analytics');
+            },
+            color: Colors.yellow,
+            child: Text('Try Firebase Analytics'),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Modular.to.pushNamed('/performance');
+            },
+            color: Colors.green,
+            child: Text('Try Firebase Performance'),
+          ),
+        ],
+      );
+
+  Widget snapshotIsEmpty() => CircularProgressIndicator();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,30 +47,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Firebase could not be initialized');
+              return snapshotHasError();
             } else {
               if (snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RaisedButton(
-                      onPressed: () {
-                        Modular.to.pushNamed('/analytics');
-                      },
-                      color: Colors.yellow,
-                      child: Text('Try Firebase Analytics'),
-                    ),
-                    RaisedButton(
-                      onPressed: () {
-                        Modular.to.pushNamed('/performance');
-                      },
-                      color: Colors.green,
-                      child: Text('Try Firebase Performance'),
-                    ),
-                  ],
-                );
+                return snapshotHasData();
               } else {
-                return CircularProgressIndicator();
+                return snapshotIsEmpty();
               }
             }
           },
