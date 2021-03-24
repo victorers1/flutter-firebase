@@ -60,6 +60,8 @@ class _PerformancePageState
             ),
             RaisedButton(
               onPressed: () {
+                /// TODO(victor): Flutter's Firebase doesn't have native support to network performance,
+                /// TODO(victor): feature in stand-by.
                 Modular.link.pushNamed('/network_performance');
               },
               child: Text('Go to Network Performance page'),

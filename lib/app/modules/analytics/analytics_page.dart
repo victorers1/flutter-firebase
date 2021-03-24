@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -26,6 +27,11 @@ class _AnalyticsPageState
         );
   }
 
+  crashApp() {
+    FirebaseCrashlytics.instance.crash();
+    // throw Exception('Crashing app for Firebase');
+  }
+
   analyticsAppOpen() {
     analytics.logAppOpen().then((value) => print('analytics.logAppOpen()'));
   }
@@ -47,12 +53,18 @@ class _AnalyticsPageState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RaisedButton(
+              color: Colors.blue,
               onPressed: () {
                 analyticsPressedButton(controller.value);
               },
               child: Observer(builder: (_) {
                 return Text('Trigger Analytics Event ${controller.value}');
               }),
+            ),
+            RaisedButton(
+              color: Colors.red,
+              onPressed: crashApp,
+              child: Text('Crash App'),
             ),
           ],
         ),
