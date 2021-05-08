@@ -1,6 +1,5 @@
 # firebase_flutter
 
-
 ## Analytics
 
 ### Logs
@@ -39,14 +38,13 @@ A mais leve e eficiente solução de geração de relatórios de erros. Crashlyt
 - **Logs**: Erros e Exceções são registrados como eventos
 
 - **Crash reports**: Relatório do erro é enviado quando o app é reiniciado após cada erro
+
 - **Stack traces**: Se um app se recuperar de um erro, Dart Stack trace ainda emite um relatório do ocorrido
 
 Importante: se a falha fizer o App fechar inesperadamente, o relatório será automaticamente enviado apenas na sua **próxima inicialização**.
 
 Pegando todas as exceções não tratadas:
 ```dart
-
-
 void main() {
   // Pass all uncaught errors from the framework to Crashlytics.
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
@@ -74,11 +72,10 @@ FirebaseCrashlytics.instance.setCustomKey('int_key', 1);
 FirebaseCrashlytics.instance.setUserIdentifier("12345");
 ```
 
-Para criar uma mensagem persolanizada:
+Para criar uma mensagem personalizada:
 ```dart
 FirebaseCrashlytics.instance.log("Higgs-Boson detected! Bailing out");
 ```
-
 
 Referências:
 - [Alura](https://www.alura.com.br/artigos/tratamento-de-execucoes-com-firebase-crashlytics)
@@ -87,6 +84,9 @@ Referências:
 
 
 ### Rasteamento (tracing):
+
+Com um trace, é possível avaliar quanto tempo o app leva para concluir uma tarefa específica ou um conjunto de tarefas, como carregar um conjunto de imagens ou consultar seu banco de dados.
+
 Para aplicativos iOS e Android, o Monitoramento de Desempenho coleta **automaticamente** vários rastros relacionados ao ciclo de vida do aplicativo. São eles:
 
 - **Início de aplicativo**: mede o tempo entre o momento em que o usuário abre o aplicativo e o momento em que o aplicativo responde.
@@ -98,10 +98,11 @@ Para aplicativos iOS e Android, o Monitoramento de Desempenho coleta **automatic
 Esses rastreios são rastros prontos para uso, portanto, você não pode adicionar métricas personalizadas ou atributos personalizados a eles. Todos esses rastreios são como cronômetros porque medem o tempo que leva para o processo monitorado ser executado. [Fonte](https://firebase.google.com/docs/perf-mon/app-start-foreground-background-traces?platform=android).
 
 
-Rasteamento personalizado:
+Rasteamento de código:
 ```dart
+final trace = FirebasePerformance.instance.newTrace('5secs_trace');
+
 _perfTrace() async {
-    final trace = FirebasePerformance.instance.newTrace('5secs_trace');
     trace.start();
     await Future.delayed(Duration(seconds: 5));
     trace.stop();
@@ -112,11 +113,22 @@ Mede tempo entre os comandos `trace.start()` e `trace.stop()`.
 No console: 
 ![console print](./assets/img/performance_console.jpg "Console Print")
 
+Rastreamento de métrica personalizada:
+
+```dart
+trace.start();
+trace.incrementMetric('FAB_count', controller.fabCount).then(
+  (value) => print('trace.incrementMetric(${controller.fabCount})'),
+);
+trace.stop();
+```
+
+
 ### Network performance
 
 Rastreia o tempo que as requisições levam para completarem-se, a taxa de erro e também registra as informações no body e header. 
 
-Firebase ainda [não oferece](https://stackoverflow.com/a/54272558/9718711) essa funcionalidade por padrão nem no FLutter nem no Dio. É possível adiconar essa funcionalidade programaticamente usando o código disponível na documentação do [firebase_performance](https://pub.dev/packages/firebase_performance). Há [esse pacote](https://pub.dev/packages/dio_firebase_performance) que tenta fazer a mesma coisa utilizando o Dio, mas não é seguro adicioná-lo.
+Firebase ainda [não oferece](https://stackoverflow.com/a/54272558/9718711) essa funcionalidade por padrão nem no FLutter nem no Dio. É possível adicionar essa funcionalidade programaticamente usando o código disponível na documentação do [firebase_performance](https://pub.dev/packages/firebase_performance). Há [esse pacote](https://pub.dev/packages/dio_firebase_performance) que tenta fazer a mesma coisa utilizando o Dio, mas não é seguro adicioná-lo.
 
 
 ## Apêndice:

@@ -19,16 +19,15 @@ class _PerformancePageState
   _perfTrace() async {
     trace.start();
     controller.setTraceButtonText('Tracing...');
+    trace.incrementMetric('FAB_count', controller.fabCount).then(
+          (value) => print('trace.incrementMetric(${controller.fabCount})'),
+        );
     await Future.delayed(Duration(seconds: 5));
     trace.stop();
     controller.setTraceButtonText('Peforme trace');
   }
 
   _incrementMetric() {
-    trace.incrementMetric('FAB_count', controller.fabCount).then(
-          (value) => print('trace.incrementMetric(${controller.fabCount})'),
-        );
-
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
         content: Text(
